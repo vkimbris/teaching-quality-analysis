@@ -12,6 +12,16 @@ from src.utils import get_messages_from_database
 
 from typing import List, Dict
 
+import logging
+import sys
+
+# Configure logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.StreamHandler(sys.stdout)
+                    ])
+
 
 app = FastAPI()
 
@@ -23,9 +33,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+logging.info("Models are loading, please wait...")
+logging.info("Classifier is loading...")
 classifier = Classifier(model_path=CLASSIFIER_MODEL_PATH)
+logging.info("Classifier has been loaded!")
+logging.info("Explainer is loading...")
 explainer = Explainer(repo_id=EXPLAINER_REPO_ID, model_file_name=EXPLAINER_MODEL_NAME)
+logging.info("Explainer has been loaded!")
 
 
 @app.get("/")
@@ -64,8 +78,7 @@ def explain_messages(classified_messages: List[ClassifierOutput]) -> ExplainerOu
                 messages_to_summarize.append(message.text)
                 break
 
-    print(messages_to_summarize)
-
+    print("---", messages_to_summarize)
     if not messages_to_summarize:
         return ExplainerOutput(summary="Урок с нейтральным оттенком")
 

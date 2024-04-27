@@ -12,6 +12,8 @@ services:
 
   ml:
     build: ./ml
+    stdin_open: true
+    tty: true
     ports:
       - "8002:8002"
 
