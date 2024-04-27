@@ -1,1 +1,3 @@
 CLASSIFIER_PATH = ""
+
+DATABASE_SERVER_URL = "http://database:8000"
