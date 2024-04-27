@@ -9,7 +9,7 @@ class Classifier:
         model = AutoModelForSequenceClassification.from_pretrained(model_path)
         tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-        self.classifier = pipeline(task="text-classification", model=model, tokenizer=tokenizer, top_k=3)
+        self.classifier = pipeline(task="text-classification", model=model, tokenizer=tokenizer, top_k=4)
 
     def predict(self, texts: List[str]) -> List[List[Dict[str, float]]]:
         return self.classifier(texts)
