@@ -10,6 +10,8 @@ from src.models import *
 from src.db_utils import *
 from src.parsing import parse_file
 
+from io import BytesIO
+
 
 app = FastAPI()
 
@@ -35,10 +37,10 @@ def read_root():
 
     
 @app.post("/uploadFile")
-async def upload_lessons_and_messages(file: UploadFile = File(...)):
-    contents = await file.read()
+async def upload_lessons_and_messages(file: bytes = File(...)):
+    bytes_io = BytesIO(file)
     
-    lessons, messages = parse_file(pd.read_excel(contents))
+    lessons, messages = parse_file(pd.read_excel(bytes_io))
 
     try:
         lessons_collection.insert_many([lesson.dict() for lesson in lessons])
