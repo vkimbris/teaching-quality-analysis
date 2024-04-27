@@ -5,3 +5,4 @@ pandas
 python-multipart
 requests
 transformers
+llama-cpp-python==0.2.65

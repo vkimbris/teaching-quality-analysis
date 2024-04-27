@@ -21,3 +21,7 @@ class ClassifierOutput(BaseModel):
     date: str
 
     categories: List[Category]
+
+
+class ExplainerOutput(BaseModel):
+    summary: str
