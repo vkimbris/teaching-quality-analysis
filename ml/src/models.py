@@ -25,3 +25,8 @@ class ClassifierOutput(BaseModel):
 
 class ExplainerOutput(BaseModel):
     summary: str
+
+
+class Statistic(BaseModel):
+    category: str
+    value: int
