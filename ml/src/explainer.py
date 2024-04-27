@@ -32,7 +32,7 @@ class Explainer:
         )
 
     @staticmethod
-    def __create_text_message(self, messages: List[str]) -> str:
+    def __create_text_message(messages: List[str]) -> str:
         """
         Concatenates text messages in string-list
 
