@@ -3,7 +3,7 @@ import requests
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.models import Message, ClassifierOutput, Category
+from src.models import *
 
 from src.classifier import Classifier
 from src.constants import *
@@ -55,3 +55,17 @@ def classify_messages(lesson_id: str) -> List[ClassifierOutput]:
 @app.post("/explainMessages")
 def explain_messages():
     pass
+
+
+@app.post("/stats")
+def get_statistics(classified_messages: List[ClassifierOutput]) -> List[Statistic]:
+    statistic = {value: 0 for value in CLASSIFIER_MODEL_LABELS_MAPPING.values()}
+
+    for message in classified_messages:
+        for category in message.categories:
+            if category.score >= CATEGORY_THRESHOLD:
+                statistic[category.name] += 1
+
+    statistic["Ничего"] = len(classified_messages) - sum(statistic.values())
+
+    return [Statistic(category=key, value=value) for key, value in statistic.items()]

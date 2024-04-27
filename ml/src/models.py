@@ -21,3 +21,8 @@ class ClassifierOutput(BaseModel):
     date: str
 
     categories: List[Category]
+
+
+class Statistic(BaseModel):
+    category: str
+    value: int
