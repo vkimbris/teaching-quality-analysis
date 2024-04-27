@@ -7,14 +7,9 @@ from src.models import Message, ClassifierOutput, Category
 
 from src.classifier import Classifier
 from src.constants import *
+from src.utils import get_messages_from_database
 
 from typing import List, Dict
-
-
-def get_messages(lesson_id: str) -> List[Dict]:    
-    response = requests.get(DATABASE_SERVER_URL + "/messages", params={"lesson_id": lesson_id})
-
-    return response.json()
 
 
 app = FastAPI()
@@ -28,7 +23,7 @@ app.add_middleware(
 )
 
 
-classifier = Classifier(model_path=CLASSIFIER_PATH)
+classifier = Classifier(model_path=CLASSIFIER_MODEL_PATH)
 
 
 @app.get("/")
@@ -38,13 +33,13 @@ def read_root():
 
 @app.post("/classifyMessages")
 def classify_messages(lesson_id: str) -> List[ClassifierOutput]:
-    messages = get_messages(lesson_id)
+    messages = get_messages_from_database(DATABASE_SERVER_URL + "/messages", lesson_id)
     
     classifier_outputs = classifier.predict([message["text"] for message in messages])
 
     results: List[ClassifierOutput] = []
     for message, categories in zip(messages, classifier_outputs):
-        categories = [Category(name=category["name"], score=category["score"]) for category in categories]
+        categories = [Category(name=CLASSIFIER_MODEL_LABELS_MAPPING[category["label"]], score=category["score"]) for category in categories]
         
         results.append(ClassifierOutput(
             lesson_id=message["lessonID"],
@@ -55,6 +50,7 @@ def classify_messages(lesson_id: str) -> List[ClassifierOutput]:
         ))
     
     return results
+
 
 @app.post("/explainMessages")
 def explain_messages():

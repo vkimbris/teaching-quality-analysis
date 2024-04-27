@@ -4,3 +4,4 @@ pymongo
 pandas
 python-multipart
 requests
+transformers
