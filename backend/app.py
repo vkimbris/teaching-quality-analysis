@@ -1,6 +1,7 @@
 import pandas as pd
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from pymongo import MongoClient
 
@@ -11,6 +12,14 @@ from src.parsing import parse_file
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 client = MongoClient(MONGO_URI)
 
@@ -66,3 +75,41 @@ def get_messages(lesson_id: str):
         })
 
     return messages
+
+# input
+[
+	{
+		"lesson_id": "32123",
+		"role": "user",
+		"text": "не работает ничооо",
+		"date": "2024-03-13 10:12:22",
+		"categories": [
+			{
+				"name": "Технические неполадки",
+				"score": 0.9
+			},
+			{
+				"name": "Ругань",
+				"score": 0.05
+			},
+			{
+				"name": "Сложность",
+				"score": 0.05
+			}
+		]
+	}
+]
+
+#output
+{
+    "messages": [
+        {
+		    "lesson_id": "32123",
+		    "role": "user",
+		    "text": "не работает ничооо",
+		    "date": "2024-03-13 10:12:22"
+	    }
+    ],
+
+    "explanaition": "some text"
+}
