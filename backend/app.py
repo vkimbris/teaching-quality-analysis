@@ -49,7 +49,7 @@ async def upload_lessons_and_messages(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@app.get("/getLessons")
+@app.get("/lessons")
 def get_lessons():
     lessons = []
 
@@ -62,7 +62,7 @@ def get_lessons():
     return lessons
 
 
-@app.get("/getMessages")
+@app.get("/messages")
 def get_messages(lesson_id: str):
     messages = []
 
@@ -75,41 +75,3 @@ def get_messages(lesson_id: str):
         })
 
     return messages
-
-# input
-[
-	{
-		"lesson_id": "32123",
-		"role": "user",
-		"text": "не работает ничооо",
-		"date": "2024-03-13 10:12:22",
-		"categories": [
-			{
-				"name": "Технические неполадки",
-				"score": 0.9
-			},
-			{
-				"name": "Ругань",
-				"score": 0.05
-			},
-			{
-				"name": "Сложность",
-				"score": 0.05
-			}
-		]
-	}
-]
-
-#output
-{
-    "messages": [
-        {
-		    "lesson_id": "32123",
-		    "role": "user",
-		    "text": "не работает ничооо",
-		    "date": "2024-03-13 10:12:22"
-	    }
-    ],
-
-    "explanaition": "some text"
-}

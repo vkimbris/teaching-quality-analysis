@@ -10,6 +10,11 @@ services:
     depends_on:
       - mongodb
 
+  ml:
+    build: ./ml
+    ports:
+      - "8002:8002"
+
   mongodb:
     image: mongo
     ports:
