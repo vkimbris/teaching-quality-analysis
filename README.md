@@ -16,15 +16,12 @@
 
 ### FrontEnd
 1. Установите flutter на Linux согласно инструкции (https://docs.flutter.dev/get-started/install/linux/android?tab=download)
-2. Поменяйте в следующих файлах IP на IP вашего сервера
-   
-lib\config\database_api_urls.dart 
+2. Поменяйте в имеющиеся IP адреса на свои в следующих файлах:
+   - lib\config\database_api_urls.dart 
+   - lib\config\ml_api_urls.dart
+   заменив в переменной `static const String url = 'http://pasteNewUrlHere:8000/';` значение `pasteNewUrlHere`.
 
-lib\config\ml_api_urls.dart
-
-static const String url = 'http://pasteNewUrlHere:8000/';
-
-3. Запустите `dart run build_runner build --delete-conflicting-outputs` из корневой папки
+3. Запустите `dart run build_runner build --delete-conflicting-outputs` из корневой папки и дождитесь окончания кодогенерации.
 
 4. Запустить вэб приложение на одном сервере с бэкендом следующей командой:
 `flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8888`
