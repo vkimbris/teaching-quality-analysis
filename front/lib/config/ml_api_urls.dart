@@ -1,7 +1,7 @@
 /// Эндпоинты для Example.
 class MlApiUrls {
   /// Test url for dio
-  static const String url = 'http://0.0.0.0:8002/';
+  static const String url = 'http://158.160.51.92:8002/';
 
   static const String classifyMessages = '/classifyMessages';
 
