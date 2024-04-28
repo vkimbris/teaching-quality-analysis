@@ -29,7 +29,7 @@ static const String url = 'http://pasteNewUrlHere:8000/';
 4. Запустить вэб приложение на одном сервере с бэкендом следующей командой:
 `flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8888`
 
-5. Перейти на http://0.0.0.0:8888/
+5. Перейдите на http://0.0.0.0:8888/
 
 ## Описание методов
 ### Взаимодействие с MongoDB.
