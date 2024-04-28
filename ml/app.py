@@ -87,7 +87,7 @@ def explain_messages(classified_messages: List[ClassifierOutput]) -> ExplainerOu
 
 
 @app.post("/stats")
-def get_statistics(classified_messages: List[ClassifierOutput]) -> List[Statistic]:
+def get_statistics(classified_messages: List[ClassifierOutput]):
     statistic = {value: 0 for value in CLASSIFIER_MODEL_LABELS_MAPPING.values()}
 
     for message in classified_messages:
@@ -97,4 +97,26 @@ def get_statistics(classified_messages: List[ClassifierOutput]) -> List[Statisti
 
     statistic["Ничего"] = len(classified_messages) - sum(statistic.values())
 
-    return [Statistic(category=key, value=value) for key, value in statistic.items()]
+    statistic = [Statistic(category=key, value=value) for key, value in statistic.items()]
+
+    marks = {stat.category: stat.value for stat in statistic if stat.category != "Ничего"}
+    
+    normalized_marks = {}
+    total_marks = sum(marks.values())
+
+    for key in marks.keys():
+        if total_marks != 0:
+            normalized_marks[key] = marks[key] / total_marks
+
+            if key in ["Технические неполадки", "Ругательство", "Сложности в понимании"]:
+                normalized_marks[key] = 1 - normalized_marks[key]
+
+            normalized_marks[key] = normalized_marks[key] * 5
+        else:
+            normalized_marks[key] = 2.5
+
+    normalized_marks = {MARKS_MAPPING[key]: value for key, value in normalized_marks.items()}
+    normalized_marks = [Mark(category=key, value=value) for key, value in normalized_marks.items()]
+
+    return {"counts": statistic, "marks": normalized_marks}
+    

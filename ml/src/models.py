@@ -30,3 +30,8 @@ class ExplainerOutput(BaseModel):
 class Statistic(BaseModel):
     category: str
     value: int
+
+
+class Mark(BaseModel):
+    category: str
+    value: float

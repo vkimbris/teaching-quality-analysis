@@ -12,4 +12,11 @@ EXPLAINER_REPO_ID = "gromoboy/gemma_f16_gguf"
 EXPLAINER_MODEL_NAME = "gemma_f16_gguf"
 EXPLAINER_THRESHOLD = 0.3
 
-CATEGORY_THRESHOLD = 0.2
+CATEGORY_THRESHOLD = 0.3
+
+MARKS_MAPPING = {
+    "Технические неполадки": "Техническая организация",
+    "Ругательство": "Дисциплина",
+    "Сложности в понимании": "Понятность изложения",
+    "Все отлично": "Удовлетворенность студентов"
+}
