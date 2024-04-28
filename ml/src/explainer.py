@@ -12,7 +12,7 @@ class Explainer:
 
     model_kwargs = {
         "n_ctx": 4096,  # Context length to use
-        "n_threads": 4,  # Number of CPU threads to use
+        "n_threads": 2,  # Number of CPU threads to use
         "n_gpu_layers": 0,  # Number of model layers to offload to GPU. Set to 0 if only using CPU
     }
 
