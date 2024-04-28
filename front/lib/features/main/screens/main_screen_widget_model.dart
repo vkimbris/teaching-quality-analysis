@@ -13,10 +13,8 @@ import 'package:xakaton/features/main/domain/entity/lesson.dart';
 import 'package:xakaton/features/main/screens/main_screen.dart';
 import 'package:xakaton/features/main/screens/main_screen_model.dart';
 
-MainScreenWidgetModel defaultMainScreenWidgetModelFactory(
-    BuildContext context) {
-  final model =
-      MainScreenModel(Provider.of<IMainScope>(context).databaseApiInteractor);
+MainScreenWidgetModel defaultMainScreenWidgetModelFactory(BuildContext context) {
+  final model = MainScreenModel(Provider.of<IMainScope>(context).databaseApiInteractor);
 
   return MainScreenWidgetModel(context, model);
 }
@@ -87,15 +85,11 @@ class MainScreenWidgetModel extends WidgetModel<MainScreen, MainScreenModel>
 
     await model.databaseApiInteractor.uploadFile(formData);
 
-    //await FileSaver.instance.saveFile(name: name, bytes: data);
-
     _isDragDropLoading.value = false;
     //Update the UI
     //widget.onDroppedFile(droppedFile);
     _isDragDropHighlited.value = false;
   }
-
-  Future<void> sendFile() async {}
 
   @override
   void dragDropOnHover() {
@@ -127,8 +121,7 @@ class MainScreenWidgetModel extends WidgetModel<MainScreen, MainScreenModel>
 
   void _dragDropOnErrorShowSnackBar([String? msg]) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(_ctx)
-        .showSnackBar(getErrorSnackBar(msg ?? 'проблема с загрузкой файла'));
+    ScaffoldMessenger.of(_ctx).showSnackBar(getErrorSnackBar(msg ?? 'проблема с загрузкой файла'));
   }
 
   @override
@@ -165,8 +158,7 @@ class MainScreenWidgetModel extends WidgetModel<MainScreen, MainScreenModel>
   TabController get tabController => _tabController;
 
   @override
-  ValueListenable<EntityState<List<Lesson>>> get lessonsListState =>
-      _lessonsListState;
+  ValueListenable<EntityState<List<Lesson>>> get lessonsListState => _lessonsListState;
 
   Future<void> _handleTabSelection() async {
     if (tabController.previousIndex == 0 && tabController.index == 1) {
@@ -191,8 +183,7 @@ class MainScreenWidgetModel extends WidgetModel<MainScreen, MainScreenModel>
 
   @override
   void onLessonCardTap(Lesson lessonData) {
-    Navigator.of(context)
-        .pushNamed(AppRouter.lessonAnalyzeScreen, arguments: lessonData);
+    Navigator.of(context).pushNamed(AppRouter.lessonAnalyzeScreen, arguments: lessonData);
   }
 }
 
