@@ -2,7 +2,7 @@
 
 ## Варианты взаимодействия с решением
 1. Удаленно. Наше решение развернуто на YandexCloud
-   Ссылка на UI:
+   Ссылка на UI: http://158.160.51.92:8888/
 2. Локально. Инструкция по установке ниже
 
 Обратите внимание, что на YandexCloud в базу данных уже загружены данные по урокам из файла, предоставленным организаторами.
@@ -10,13 +10,25 @@
 
 ## Установка
 
+### Backend
 1. Убедитесь, что у вас установлен `docker`. Для Linux: `sudo apt-get install docker.io`
 2. Выполните команду `docker-compose up --build`
-3. Откройте в браузере http://localhost:8003
+
+### FrontEnd
+1. Установите flutter на Linux согласно инструкции (https://docs.flutter.dev/get-started/install/linux/android?tab=download)
+2. Поменяйте в следующих файлах IP на IP вашего сервера
+lib\config\database_api_urls.dart
+lib\config\ml_api_urls.dart
+
+static const String url = 'http://pasteNewUrlHere:8000/';
+4. Запустите `dart run build_runner build --delete-conflicting-outputs` из корневой папки
+3. Запустить вэб приложение на одном сервере с бэкендом следующей командой:
+`flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8888`
+4. Перейти на http://0.0.0.0:8888/
 
 ## Описание методов
 ### Взаимодействие с MongoDB.
-Swagger: http://158.160.114.28:8000/docs
+Swagger: http://158.160.51.92:8000/docs
 
 #### POST /uploadFile
 Метод для загрузки файлов в базу данных. Файл должен быть в формате Excel. Пример файла находится в репозитории. В случае успеха возвращает:
