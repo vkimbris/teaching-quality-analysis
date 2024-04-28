@@ -1,34 +1,32 @@
-# Install Operating system and dependencies
-FROM ubuntu:20.04
+#Stage 1 - Install dependencies and build the app
+FROM dart:3.3.4 as build-env
 
-RUN apt-get update 
-RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3
-RUN apt-get clean
+ARG 3.1.4
 
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+RUN apt-get update --quiet --yes
+RUN apt-get install --quiet --yes \
+	unzip \
+	apt-utils
 
-# Set flutter environment path
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
-
+RUN dart pub global activate fvm 3.1.4
+RUN fvm install 3.19.6
+RUN fvm global 3.19.6
+ENV PATH="/root/fvm/default/bin:${PATH}"
 # Run flutter doctor
-RUN flutter doctor
-
-
+RUN flutter doctor -v
 # Enable flutter web
-RUN flutter channel master
-RUN flutter upgrade
 RUN flutter config --enable-web
 
 # Copy files to container and build
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
+RUN flutter pub get
 RUN flutter build web
 
-# Record the exposed port
-EXPOSE 5000
-
-# make server startup script executable and start the web server
-RUN ["chmod", "+x", "/app/server/server.sh"]
-
-ENTRYPOINT [ "/app/server/server.sh"]
+# Stage 2 - Create the run-time image
+FROM nginx:1.21.1-alpine
+COPY --from=build-env /app/build/web /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
