@@ -8,8 +8,8 @@ CLASSIFIER_MODEL_LABELS_MAPPING = {
 
 DATABASE_SERVER_URL = "http://database:8000"
 
-EXPLAINER_REPO_ID = "gromoboy/gemma_f16_gguf"
-EXPLAINER_MODEL_NAME = "gemma_f16_gguf"
+EXPLAINER_REPO_ID = "gromoboy/mistral_gguf"
+EXPLAINER_MODEL_NAME = "mistral_gguf-unsloth.Q4_K_M.gguf"
 EXPLAINER_THRESHOLD = 0.3
 
 CATEGORY_THRESHOLD = 0.3

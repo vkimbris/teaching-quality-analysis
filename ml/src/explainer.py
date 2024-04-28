@@ -5,7 +5,7 @@ from llama_cpp import Llama
 class Explainer:
     generation_kwargs = {
         "max_tokens": 500,  # Max number of new tokens to generate
-        "stop": ["<eos>"],  # Text sequences to stop generation on
+        "stop": ["</s>"],  # Text sequences to stop generation on
         "echo": False,  # Echo the prompt in the output
         "top_k": 1
     }
@@ -49,4 +49,4 @@ class Explainer:
         messages_text = self.__create_text_message(messages)
         prompt = self.llama_prompt.format(messages_text, '')
         summary = self.llm(prompt, **self.generation_kwargs)
-        return summary["choices"][0]['text']
+        return summary["choices"][0]['text'].strip()
