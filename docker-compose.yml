@@ -1,6 +1,12 @@
 version: '3.8'
 
 services:
+
+  front:
+    build: ./front
+    ports:
+      - "8080:8080"
+
   database:
     build: ./database
     ports:
@@ -12,6 +18,7 @@ services:
 
   ml:
     build: ./ml
+    restart: always
     stdin_open: true
     tty: true
     ports:
