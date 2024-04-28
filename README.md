@@ -16,8 +16,10 @@
 
 ### FrontEnd
 1. Установите flutter на Linux согласно инструкции (https://docs.flutter.dev/get-started/install/linux/android?tab=download)
-2. Поменяйте в следующих файлах IP на IP вашего сервера 
+2. Поменяйте в следующих файлах IP на IP вашего сервера
+   
 lib\config\database_api_urls.dart 
+
 lib\config\ml_api_urls.dart
 
 static const String url = 'http://pasteNewUrlHere:8000/';
